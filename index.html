@@ -1,0 +1,293 @@
+<!--
+	Visualising Xively Feeds with D3
+	Prepared by Paul Cheek
+	(c) 2013 LogMeIn, Inc.
+-->
+
+<!DOCTYPE html>
+<!--[if IE 8]> <html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+	<title>Visualising Xively Feeds with D3</title>
+
+	<link type="text/css" rel="stylesheet" href="css/normalize.css" />
+	<link type="text/css" rel="stylesheet" href="css/foundation.min.css" />
+	<link type="text/css" rel="stylesheet" href="css/rickshaw.min.css">
+
+	<style type="text/css">
+		body, html {
+			max-width: 100%;
+			min-height: 100%;
+			overflow-x: hidden;
+			background: #DFE5E6;
+		}
+
+		.hidden {
+			display: none;
+		}
+	</style>
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+	<script src="js/custom.modernizr.js"></script>
+	<script src="js/cosmjs-1.0.0.min.js"></script>
+	<script src="js/d3.v2.js"></script>
+	<script src="js/rickshaw.min.js"></script>
+
+</head>
+<body>
+
+	<!-- Header -->
+	<div style="background: #101C24;">
+		<div class="row">
+			<div class="large-3 columns">
+				<h1>
+					<a href="https://xively.com"><img src="img/logo.png" alt="Xively" /></a>
+				</h1>
+			</div>
+			<div class="large-9 columns">
+				<a id="settings" class="small button round secondary" href="#" data-reveal-id="feedsModal" style="margin: 30px; float: right;">
+					Settings
+				</a>
+			</div>
+		</div>
+	</div>
+	<!-- Page Content -->
+	<div style="background: #fff;">
+		<div id="welcome">
+			<div class="row">
+				<div class="large-2 columns">&nbsp;</div>
+				<div class="large-8 columns">
+					<br/><br/><br/>
+					<h1 class="subheader" style="text-align: center;">Welcome to Xively!</h1>
+					<p>This page can track the feeds that you follow on the Xively platform. Upon entering your personal API key you will have access to view public feed data. Each feed will be displayed below with its respective meta and location data.</p>
+
+					<a href="#" data-reveal-id="exampleModal" class="openStart radius secondary button expand">Ready When You Are...</a>
+					<br/><br/><br/>
+				</div>
+				<div class="large-2 columns">&nbsp;</div>
+			</div>
+		</div>
+		<div id="invalidApiKey" class="hidden">
+			<div class="row">
+				<div class="large-2 columns">&nbsp;</div>
+				<div class="large-8 columns">
+					<br/><br/><br/>
+					<h1 class="subheader" style="text-align: center;">Uh oh!</h1>
+					<h2 class="subheader" style="text-align: center;">Your API key is invalid!</h2>
+					<p>Please try again or generate a new key on Xively. It is important to keep in mind that this API key must be a global API key in order to work in this example. Using an application-specific API key will cause this example to malfunction.</p>
+
+					<a href="#" data-reveal-id="exampleModal" class="openStart radius secondary button expand">Ready When You Are...</a>
+					<br/><br/><br/>
+				</div>
+				<div class="large-2 columns">&nbsp;</div>
+			</div>
+		</div>
+		<div id="feeds">
+			<div class="feed hidden" id="exampleFeed" style="line-height: 25px; padding-top: 25px;">
+				<div class="row title">
+					<div class="large-6 columns">
+						<h2 class="subheader value">Loading Feed Data...</h2>
+					</div>
+					<div class="large-6 columns">
+						<br/>
+						<div class="button-group" style="float: right;">
+							<a href="#" class="small button secondary duration-hour">Hour</a>
+							<a href="#" class="small button secondary duration-day">Day</a>
+							<a href="#" class="small button secondary duration-week">Week</a>
+							<a href="#" class="small button secondary duration-month">Month</a>
+							<a href="#" class="small button secondary duration-year">Year</a>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-7 columns">
+						<h4 class="subheader">Meta</h4>
+						<div class="row id">
+							<div class="large-4 columns"><strong>ID</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row title">
+							<div class="large-4 columns"><strong>Title</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row description">
+							<div class="large-4 columns"><strong>Description</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row link">
+							<div class="large-4 columns"><strong>Link</strong></div>
+							<div class="large-8 columns value"><a href="#">View on Xively &raquo;</a></div>
+						</div>
+						<div class="row creator">
+							<div class="large-4 columns"><strong>Creator</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row updated">
+							<div class="large-4 columns"><strong>Updated</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row tags">
+							<div class="large-4 columns"><strong>Tags</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+					</div>
+					<div class="large-5 columns">
+						<h4 class="subheader">Location</h4>
+						<div class="alert alert-box hidden no-location">
+							Sorry, no location information is available.
+						</div>
+						<div class="row location-name">
+							<div class="large-4 columns"><strong>Name</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row latitude">
+							<div class="large-4 columns"><strong>Latitude</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row longitude">
+							<div class="large-4 columns"><strong>Longitude</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row elevation">
+							<div class="large-4 columns"><strong>Elevation</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row disposition">
+							<div class="large-4 columns"><strong>Disposition</strong></div>
+							<div class="large-8 columns value"></div>
+						</div>
+						<div class="row map">
+							<div class="large-4 columns"><strong>Map</strong></div>
+							<div class="large-8 columns value"><a href="#">View on Google Maps &raquo;</a></div>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="large-12 columns">
+						<div class="datastreams">
+							<div class="datastream hidden">
+								<hr/>
+								<div class="row">
+									<div class="large-8 columns datastream-name subheader">
+										Datastream Name
+									</div>
+									<div class="large-3 columns datastream-value subheader" style="text-align: right;">
+										420
+									</div>
+								</div>
+								<div class="row">
+									<div class="large-12 columns">
+										<div class="graphWrapper" style="margin-top: 15px; padding: 10px; background: #DFE5E6; text-align: center;">
+											<div class="graph" style="width: 600px; margin: auto;"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<hr/>
+			</div>
+		</div>
+		<hr/>
+	</div>
+	<!-- Bottom Information Bar -->
+	<div class="row">
+		<div class="large-8 columns">
+			<h5 class="subheader">
+				Visualising Xively Feeds with D3
+			</h5>
+			<div class="panel">
+				<p>This page serves as a replacement to the Follow functionality previously supported by Xively under the Cosm name. Please use this example as a starting point for developing the Internet of Things.</p>
+			</div>
+		</div>
+		<div class="large-4 columns">
+			<h5 class="subheader">
+				Resources
+			</h5>
+			<a href="https://cosm.com/" class="button small secondary expand">
+				Xively.com
+			</a>
+			<a href="https://cosm.com/docs/quickstart/" class="button small secondary expand">
+				Getting Started Guide
+			</a>
+			<a href="https://cosm.com/docs/" class="button small secondary expand">
+				API Documentation
+			</a>
+		</div>
+	</div>
+	<!-- Footer -->
+	<div style="background: #0D1B23; padding: 25px;">
+		<div class="row">
+			<div class="large-10 columns" style="color: rgb(81, 98, 111);">
+				<small>
+					Copyright © 2003-2013 LogMeIn, Inc.<br/>
+					All rights reserved.
+				</small>
+				<!-- <a class="welcome button round small secondary">?</a> -->
+			</div>
+			<div class="large-2 columns">
+				<a href="https://xively.com"><img src="img/logo.png" alt="Xively" /></a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Modals -->
+	<div id="infoModal" class="reveal-modal small">
+		<h2>Welcome to Xively!</h2>
+		<p>This page can track the feeds that you follow on the Xively platform. Upon entering your personal API key you will have access to view public feed data. Each feed will be displayed below with its respective meta and location data.</p>
+		<p>Feeds are broken down into datastreams, each of which has its own graph. Choose the parameters you desire to manipulate the visual representation of data - this page is dynamic and can interact with Xively data however you choose.</p>
+		<p>This page is open source and available for you to fork on GitHub. Using this page's source code as a starting point you can design and develop any type of visual representation for the world's real time data.</p>
+		<a id="enterApiKey" href="#" data-reveal-id="apiKeyModal" class="secondary button expand">
+			Let's Get Started...
+		</a>
+	</div>
+	<div id="apiKeyModal" class="reveal-modal small">
+		<h2>API Key</h2>
+		<p>To begin following feeds you will need an active API key. <a href="https://next.cosm.com/keys/">Get one here &raquo;</a></p>
+		<div class="row collapse">
+			<div class="small-3 columns">
+				<span class="prefix">API Key</span>
+			</div>
+			<div class="small-9 columns">
+				<input type="password" placeholder="**********" id="apiKeyInput">
+			</div>
+		</div>
+		<a id="chooseFeeds" data-reveal-id="feedsModal" class="secondary button expand">
+			Choose Feeds &raquo;
+		</a>
+	</div>
+	<div id="feedsModal" class="reveal-modal small">
+		<h2>Feeds</h2>
+		<p>Next, enter the feeds that you would like to follow. This should be a comma separated list of feed identification numbers.</p>
+		<div class="row collapse">
+			<div class="small-3 columns">
+				<span class="prefix">Feed ID #'s</span>
+			</div>
+			<div class="small-9 columns">
+				<input type="text" placeholder="Comma separated" id="feedsInput">
+			</div>
+		</div>
+		<a id="setFeeds" href="#" data-reveal-id="secondModal" class="secondary button expand">
+			Follow &raquo;
+		</a>
+	</div>
+	<div id="loadingData" class="reveal-modal small">
+		<h2>Loading...</h2>
+	</div>
+
+	<script>
+		document.write('<script src=' +
+		('__proto__' in {} ? 'js/zepto' : 'js/jquery') +
+		'.js><\/script>')
+	</script>
+
+	<script src="js/foundation.min.js"></script>
+	<script src="follows.js"></script>
+
+</body>
+</html>
