@@ -87,6 +87,17 @@
 			</div>
 		</div>
 		<div id="feeds">
+			<div class="feed hidden" id="exampleFeedNotFound" style="line-height: 25px; padding-top: 25px;">
+				<div class="row title">
+					<div class="large-12 columns">
+						<h2 class="subheader value">Loading Feed Data...</h2>
+
+						<div class="alert alert-box no-info">
+							Sorry, this feed could not be found.
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="feed hidden" id="exampleFeed" style="line-height: 25px; padding-top: 25px;">
 				<div class="row title">
 					<div class="large-6 columns">
@@ -95,7 +106,7 @@
 					<div class="large-6 columns">
 						<br/>
 						<div class="button-group" style="float: right;">
-							<a href="#" class="small button secondary duration-hour">Hour</a>
+							<a href="#" class="small button secondary duration-hour">6 Hrs</a>
 							<a href="#" class="small button secondary duration-day">Day</a>
 							<a href="#" class="small button secondary duration-week">Week</a>
 							<a href="#" class="small button secondary duration-month">Month</a>
@@ -254,7 +265,7 @@
 				<span class="prefix">API Key</span>
 			</div>
 			<div class="small-9 columns">
-				<input type="password" placeholder="**********" id="apiKeyInput">
+				<input type="text" placeholder="Valid Master API Key" id="apiKeyInput">
 			</div>
 		</div>
 		<a id="chooseFeeds" data-reveal-id="feedsModal" class="secondary button expand">
