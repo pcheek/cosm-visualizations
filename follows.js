@@ -351,7 +351,7 @@
 		$('#feedsModal').foundation('reveal', 'close');
 		setApiKey($('#apiKeyInput').val());
 		feeds = $('#feedsInput').val().replace(/\s+/g, '').split(',');
-		setFeeds(feeds);
+		window.location = './index.html?key=' + $('#apiKeyInput').val() + '&feeds=' + $('#feedsInput').val();
 		return false;
 	});
 // END Initialization
