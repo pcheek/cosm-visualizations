@@ -336,6 +336,7 @@
 			cosm.feed.get(61916, function(data) {
 				if(data.id == 61916) {
 					$('#feedsModal').foundation('reveal', 'open');
+					$('#invalidApiKey').addClass('hidden');
 				} else {
 					$('#apiKeyModal').foundation('reveal', 'close');
 					$('#welcome').addClass('hidden');
