@@ -29,6 +29,11 @@
 		.hidden {
 			display: none;
 		}
+
+		#xivelyContent {
+			background: #fff;
+			box-shadow: inset 0px 0px 100px #f0f0f0;
+		}
 	</style>
 
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
@@ -43,30 +48,54 @@
 	<!-- Header -->
 	<div style="background: #101C24;">
 		<div class="row">
-			<div class="large-3 columns">
+			<div class="large-2 columns">
 				<h1>
 					<a href="https://xively.com"><img src="img/logo.png" alt="Xively" /></a>
 				</h1>
 			</div>
-			<div class="large-9 columns">
-				<a id="settings" class="small button round secondary" href="#" data-reveal-id="feedsModal" style="margin: 30px; float: right;">
-					Settings
-				</a>
+			<div class="large-10 columns">
+				<div class="row" style="margin-top: 25px;">
+					<div class="large-5 columns">
+						<div class="row collapse">
+							<div class="small-3 columns">
+								<span class="prefix">API Key</span>
+							</div>
+							<div class="small-9 columns">
+								<input type="text" placeholder="Valid Master API Key" id="apiKeyInput">
+							</div>
+						</div>
+					</div>
+					<div class="large-5 columns">
+						<div class="row collapse">
+							<div class="small-3 columns">
+								<span class="prefix">Feed ID's</span>
+							</div>
+							<div class="small-9 columns">
+								<input type="text" placeholder="Comma separated" id="feedsInput">
+							</div>
+						</div>
+					</div>
+					<div class="large-2 columns">
+						<a id="setFeeds" href="#" data-reveal-id="secondModal" class="secondary button small expand">
+							Visualize &raquo;
+						</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<!-- Page Content -->
-	<div style="background: #fff;">
+	<div id="xivelyContent" class="gradient">
 		<div id="welcome">
 			<div class="row">
 				<div class="large-2 columns">&nbsp;</div>
 				<div class="large-8 columns">
-					<br/><br/><br/>
+					<br/><br/><br/><br/><br/><br/><br/>
 					<h1 class="subheader" style="text-align: center;">Welcome to Xively!</h1>
 					<p>This page can track the feeds that you follow on the Xively platform. Upon entering your personal API key you will have access to view public feed data. Each feed will be displayed below with its respective meta and location data.</p>
 
-					<a href="#" data-reveal-id="exampleModal" class="openStart radius secondary button expand">Ready When You Are...</a>
-					<br/><br/><br/>
+					<h5 class="subheader text-center">To begin visualizing data, enter your Xively Master API key above!
+					<br/><br/><br/><br/><br/><br/><br/>
 				</div>
 				<div class="large-2 columns">&nbsp;</div>
 			</div>
@@ -81,6 +110,22 @@
 					<p>Please try again or generate a new key on Xively. It is important to keep in mind that this API key must be a global API key in order to work in this example. Using an application-specific API key will cause this example to malfunction.</p>
 
 					<a href="#" data-reveal-id="exampleModal" class="openStart radius secondary button expand">Ready When You Are...</a>
+					<br/><br/><br/>
+				</div>
+				<div class="large-2 columns">&nbsp;</div>
+			</div>
+		</div>
+		<div id="validApiKey" class="hidden">
+			<div class="row">
+				<div class="large-2 columns">&nbsp;</div>
+				<div class="large-8 columns">
+					<br/><br/><br/>
+					<h1 class="subheader" style="text-align: center;">Connected to Xively!</h1>
+					<h2 class="subheader" style="text-align: center;">Enter Feed ID's Above</h2>
+					<p>This page can track the feeds that you follow on the Xively platform. Upon entering your personal API key you will have access to view public feed data. Each feed will be displayed below with its respective meta and location data.</p>
+					<p>Feeds are broken down into datastreams, each of which has its own graph. Choose the parameters you desire to manipulate the visual representation of data - this page is dynamic and can interact with Xively data however you choose.</p>
+					<p>This page is open source and available for you to fork on GitHub. Using this page's source code as a starting point you can design and develop any type of visual representation for the world's real time data.</p>
+					<br/><br/><br/>
 					<br/><br/><br/>
 				</div>
 				<div class="large-2 columns">&nbsp;</div>
@@ -212,7 +257,6 @@
 				<small>
 					<a style="color: rgb(81, 98, 111);" href="https://github.com/pcheek/cosm-visualizations/blob/gh-pages/LICENSE.md">This library is Open Source, under the BSD 3-Clause license.</a>
 				</small>
-				<!-- <a class="welcome button round small secondary">?</a> -->
 			</div>
 			<div class="large-2 columns">
 				<a href="https://xively.com"><img src="img/logo.png" alt="Xively" /></a>
@@ -230,38 +274,8 @@
 			Let's Get Started...
 		</a>
 	</div>
-	<div id="apiKeyModal" class="reveal-modal small">
-		<h2>API Key</h2>
-		<p>To begin following feeds you will need an active API key. <a href="https://next.xively.com/keys/">Get one here &raquo;</a></p>
-		<div class="row collapse">
-			<div class="small-3 columns">
-				<span class="prefix">API Key</span>
-			</div>
-			<div class="small-9 columns">
-				<input type="text" placeholder="Valid Master API Key" id="apiKeyInput">
-			</div>
-		</div>
-		<a id="chooseFeeds" data-reveal-id="feedsModal" class="secondary button expand">
-			Choose Feeds &raquo;
-		</a>
-	</div>
-	<div id="feedsModal" class="reveal-modal small">
-		<h2>Feeds</h2>
-		<p>Next, enter the feeds that you would like to follow. This should be a comma separated list of feed identification numbers.</p>
-		<div class="row collapse">
-			<div class="small-3 columns">
-				<span class="prefix">Feed ID #'s</span>
-			</div>
-			<div class="small-9 columns">
-				<input type="text" placeholder="Comma separated" id="feedsInput">
-			</div>
-		</div>
-		<a id="setFeeds" href="#" data-reveal-id="secondModal" class="secondary button expand">
-			Follow &raquo;
-		</a>
-	</div>
-	<div id="loadingData" class="reveal-modal small">
-		<h2>Loading...</h2>
+	<div id="loadingData" class="reveal-modal small text-center">
+		<br/><br/><h2 class="subheader">Loading...</h2><br/><br/>
 	</div>
 
 	<script>

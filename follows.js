@@ -363,43 +363,39 @@
 	$('#apiKeyInput').val(key);
 	$('#feedsInput').val(feedString);
 
+	$("#apiKeyInput").mouseover(function() {
+		console.log($("#apiKeyInput").prop('disabled'));
+		if($("#apiKeyInput").prop('disabled')) {
+			$("#apiKeyInput").prop('disabled', false);
+		}
+	});
+
 	if(key != '' && feedString != '') {
 		setApiKey($('#apiKeyInput').val());
 		feeds = $('#feedsInput').val().replace(/\s+/g, '').split(',');
 		setFeeds(feeds);
-	} else if(key != '') {
-		$('#feedsModal').foundation('reveal', 'open');
 	}
 
-	$('.openStart').click(function() {
-		$('#apiKeyModal').foundation('reveal', 'open');
-		return false;
-	});
+	if(key != '') {
+		$("#apiKeyInput").prop('disabled', true);
+	}
 
-	$('#settings').click(function() {
-		$('#infoModal').foundation('reveal', 'open');
-		return false;
-	});
-
-	$('#enterApiKey').click(function() {
-		$('#apiKeyModal').foundation('reveal', 'open');
-		return false;
-	});
-
-	$('#chooseFeeds').click(function() {
+	$('#apiKeyInput').change(function() {
 		if($('#apiKeyInput').val() == '') {
-			$('#apiKeyModal').foundation('reveal', 'close');
 			$('#welcome').addClass('hidden');
 			$('#invalidApiKey').removeClass('hidden');
+			$('#validApiKey').addClass('hidden');
 		} else {
 			xively.setKey($('#apiKeyInput').val());
 			xively.feed.get(61916, function(data) {
 				if(data.id == 61916) {
-					$('#feedsModal').foundation('reveal', 'open');
+					$("#apiKeyInput").prop('disabled', true);
+					$('#welcome').addClass('hidden');
+					$('#validApiKey').removeClass('hidden');
 					$('#invalidApiKey').addClass('hidden');
 				} else {
-					$('#apiKeyModal').foundation('reveal', 'close');
 					$('#welcome').addClass('hidden');
+					$('#validApiKey').addClass('hidden');
 					$('#invalidApiKey').removeClass('hidden');
 				}
 			});
@@ -408,7 +404,6 @@
 	});
 
 	$('#setFeeds').click(function() {
-		$('#feedsModal').foundation('reveal', 'close');
 		setApiKey($('#apiKeyInput').val());
 		feeds = $('#feedsInput').val().replace(/\s+/g, '').split(',');
 		window.location = './index.html?key=' + $('#apiKeyInput').val() + '&feeds=' + $('#feedsInput').val();
