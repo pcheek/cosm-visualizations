@@ -3,23 +3,27 @@
 	/*
 	EXAMPLE CONFIGURATION
 
-		var defaultKey	= 'fje329iun52ngtuijo2f4jeun432A', // Unique master Xively API key to be used as a default
-		defaultFeeds	= [61916,12425,94322], // Comma separated array of Xively Feed ID numbers
-		applicationName	= 'My Company\'s Application', // Replaces Xively logo in the header
-		dataDuration	= '90days', // Default duration of data to be displayed // ref: https://xively.com/dev/docs/api/data/read/historical_data/
-		dataInterval	= 10800, // Default interval for data to be displayed (in seconds)
-		dataColor		= '0A1922', // CSS HEX value of color to represent data (omit leading #)
-		hideForm		= 0;
+		var defaultKey			= 'fje329iun52ngtuijo2f4jeun432A', // Unique master Xively API key to be used as a default
+			defaultFeeds		= [61916,12425,94322], // Comma separated array of Xively Feed ID numbers
+			applicationName		= 'My Company\'s Application', // Replaces Xively logo in the header
+			dataDuration		= '90days', // Default duration of data to be displayed // ref: https://xively.com/dev/docs/api/data/read/historical_data/
+			dataInterval		= 10800, // Default interval for data to be displayed (in seconds)
+			dataColor			= '0A1922', // CSS HEX value of color to represent data (omit leading #)
+			hideForm			= 0, // To hide input form use value of 1, otherwise set to 0
+			graphRenderer		= 'line', // Different graph style renderer (ex. 'area', 'bar', 'line', 'scatterplot')
+			graphInterpolation	= 'cardinal'; // Alter line style of graph (ex. 'cardinal', 'linear', or 'step-after')
 	*/
 
-	var defaultKey		= '', // Unique master Xively API key to be used as a default
-		defaultFeeds	= [], // Comma separated array of Xively Feed ID numbers
-		applicationName	= '', // Replaces Xively logo in the header
-		dataDuration	= '', // Default duration of data to be displayed // ref: https://xively.com/dev/docs/api/data/read/historical_data/
-		dataInterval	= 0, // Default interval for data to be displayed (in seconds)
-		dataColor		= '', // CSS HEX value of color to represent data (omit leading #)
-		hideForm		= 0; // To hide input form use value of 1, otherwise set to 0
-
+	var defaultKey			= '', // Unique master Xively API key to be used as a default
+		defaultFeeds		= [], // Comma separated array of Xively Feed ID numbers
+		applicationName		= '', // Replaces Xively logo in the header
+		dataDuration		= '', // Default duration of data to be displayed // ref: https://xively.com/dev/docs/api/data/read/historical_data/
+		dataInterval		= 0, // Default interval for data to be displayed (in seconds)
+		dataColor			= '', // CSS HEX value of color to represent data (omit leading #)
+		hideForm			= 0, // To hide input form use value of 1, otherwise set to 0
+		graphRenderer		= '', // Different graph style renderer (ex. 'area', 'bar', 'line', 'scatterplot')
+		graphInterpolation	= ''; // Alter line style of graph (ex. 'cardinal', 'linear', or 'step-after')
+	
 // Function Declarations
 	
 	// URL Parameters
@@ -123,7 +127,8 @@
 									element: document.querySelector('#graph-' + feedId + '-' + datastream.id),
 									width: 600,
 									height: 150,
-									renderer: 'line',
+									renderer: graphRenderer,				// TUTORIAL: Alter rickshaw graph renderer
+									interpolation: graphInterpolation,		// TUTORIAL: Alter rickshaw graph interpolation
 									min: parseFloat(datastream.min_value) - .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
 									max: parseFloat(datastream.max_value) + .25*(parseFloat(datastream.max_value) - parseFloat(datastream.min_value)),
 									padding: {
@@ -135,6 +140,13 @@
 									series: series
 								});
 								graph.render();
+
+								/* TUTORIAL: Add a Slider
+								var slider = new Rickshaw.Graph.RangeSlider({
+									graph: graph,
+									element: $('#feed-' + feedId + ' .datastreams .datastream-' + datastream.id + ' .slider')
+								});
+								*/
 
 								var ticksTreatment = 'glow';
 
@@ -362,6 +374,9 @@
 	if(dataColor == '') {
 		dataColor = '0A1922';
 	}
+
+	if(graphRenderer == '') graphRenderer = 'line';
+	if(graphInterpolation == '') graphInterpolation = 'cardinal';
 
 	var feeds = feedString.split(',');
 
