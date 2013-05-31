@@ -8,7 +8,8 @@
 		applicationName	= 'My Company\'s Application', // Replaces Xively logo in the header
 		dataDuration	= '90days', // Default duration of data to be displayed // ref: https://xively.com/dev/docs/api/data/read/historical_data/
 		dataInterval	= 10800, // Default interval for data to be displayed (in seconds)
-		dataColor		= '0A1922'; // CSS HEX value of color to represent data (omit leading #)
+		dataColor		= '0A1922', // CSS HEX value of color to represent data (omit leading #)
+		hideForm		= 0;
 	*/
 
 	var defaultKey		= '', // Unique master Xively API key to be used as a default
@@ -16,7 +17,8 @@
 		applicationName	= '', // Replaces Xively logo in the header
 		dataDuration	= '', // Default duration of data to be displayed // ref: https://xively.com/dev/docs/api/data/read/historical_data/
 		dataInterval	= 0, // Default interval for data to be displayed (in seconds)
-		dataColor		= ''; // CSS HEX value of color to represent data (omit leading #)
+		dataColor		= '', // CSS HEX value of color to represent data (omit leading #)
+		hideForm		= 0; // To hide input form use value of 1, otherwise set to 0
 
 // Function Declarations
 	
@@ -155,9 +157,8 @@
 								var hoverDetail = new Rickshaw.Graph.HoverDetail({
 									graph: graph,
 									formatter: function(series, x, y) {
-										var date = '<span class="date">' + new Date(x * 1000).toUTCString() + '</span>';
-										var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + '"></span>';
-										var content = swatch + series.name + ": " + parseFloat(y) + '<br>' + date;
+										var swatch = '<span class="detail_swatch" style="background-color: ' + series.color + ' padding: 4px;"></span>';
+										var content = swatch + "&nbsp;&nbsp;" + parseFloat(y) + '&nbsp;&nbsp;<br>';
 										return content;
 									}
 								});
@@ -209,7 +210,7 @@
 					}
 
 					// Link
-					$('#feed-' + data.id + ' .link .value').html('<a href="https://next.xively.com/feeds/' + data.id + '/">View on Xively &raquo;</a>');
+					$('#feed-' + data.id + ' .link .value').html('<a href="https://xively.com/feeds/' + data.id + '/">View on Xively &raquo;</a>');
 					
 					// Creator
 					var creator = /[^/]*$/.exec(data.creator)[0];
@@ -333,6 +334,10 @@
 // END Function Declarations
 
 // BEGIN Initialization
+	if(hideForm == 1) {
+		$('#form').hide();
+	}
+
 	var today = new Date();
 	var yesterday = new Date(today.getTime()-1000*60*60*24*1);
 	var lastWeek = new Date(today.getTime()-1000*60*60*24*7);
